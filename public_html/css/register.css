@@ -3,14 +3,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
 body {
     font-family: 'Arial', sans-serif;
     color: #333;
-    background-size: cover;
-    background-attachment: fixed;
+    background-color: #f8f9fa;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,7 +16,6 @@ body {
 }
 
 /* Encabezado */
-/* Estilos del encabezado */
 .header {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
@@ -30,9 +27,9 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.logo {
-    width: 50px;
-    height: 50px;
+.header h1 {
+    font-size: 2em;
+    font-weight: bold;
 }
 
 .header-title {
@@ -43,36 +40,25 @@ body {
     transform: translateX(-50%); 
 }
 
-.btn-login {
-    padding: 10px 20px;
-    background-color: #ff6b6b;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 1em;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
+
+.logo {
+    width: 50px;
+    height: 50px;
 }
 
-.btn-login:hover {
-    background-color: #ee5253; /* Rojo más oscuro */
-    color: #fff;
-}
-
-/* Contenido principal */
+/* Contenedor principal */
 .main-content {
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
     width: 100%;
     padding: 20px;
 }
 
-.search-container {
-    background-color: rgba(255, 255, 255, 0.95);
+/* Contenedor del formulario */
+.register-container {
+    background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -80,77 +66,81 @@ body {
     text-align: center;
 }
 
-.search-container h2 {
+.register-container h2 {
     font-size: 1.8em;
     margin-bottom: 20px;
     color: #4a4e69;
 }
 
-.form-group {
-    margin-bottom: 15px;
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Campos del formulario */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
     text-align: left;
 }
 
-.form-group label {
-    font-weight: bold;
-    color: #555;
-}
-
-.input-field {
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
+    border-radius: 4px;
     font-size: 1em;
 }
 
-.input-field:focus {
+input:focus,
+select:focus {
     border-color: #4a4e69;
     outline: none;
 }
 
-.city-options {
+/* Checkboxes de aficiones */
+#hobbies-container {
     display: flex;
-    gap: 15px;
-    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.city-options label {
-    font-weight: bold;
-    color: #555;
+#hobbies-container label {
+    font-weight: normal;
     display: flex;
     align-items: center;
+    gap: 5px;
 }
 
-.city-options input[type="checkbox"] {
-    margin-right: 8px;
-    accent-color: #4a4e69;
-}
-
-.btn-search {
-    width: 100%;
-    padding: 10px;
+/* Botón de registro */
+button[type="submit"] {
     background-color: #4a4e69;
-    color: #fff;
+    color: white;
+    padding: 10px;
+    font-size: 1em;
     border: none;
     border-radius: 4px;
-    font-size: 1em;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
-.btn-search:hover {
-    background-color: #222256;
+button[type="submit"]:hover {
+    background-color: #22223b;
 }
 
 /* Pie de página */
 .footer {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
+    color: white;
     text-align: center;
     padding: 15px;
     margin-top: 20px;
@@ -169,5 +159,6 @@ body {
 }
 
 .footer a:hover {
-    color: #fff;
+    color: white;
 }
+

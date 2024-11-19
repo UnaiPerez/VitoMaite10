@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html>
     <head>
         <title>VitoMait10 - Encuentra el amor</title>
@@ -24,8 +20,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <h2>Buscar Solteros/as</h2>
                 <form id='form-group'>
                     <div class='form-group'>
-                        <label for="gender-search">¿Que estoy buscando?</label>
+                        <label for="gender-search">¿Qué estoy buscando?</label>
                         <select id='gender-search' class="input-field">
+                            <option value="" disabled selected>¿Que buscas?</option>
                             <option value="H-M">Soy hombre y busco mujer</option>
                             <option value="H-H">Soy hombre y busco hombre</option>
                             <option value="H-A">Soy hombre y busco ambos</option>
@@ -35,20 +32,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for='age-min'>Edad minima</label>
+                        <label for='age-min'>Edad mínima</label>
                         <input type='number' id='age-min' class="input-field" min='18' max='100'>
                     </div>
                     <div class="form-group">
-                        <label for='age-max'>Edad maxima</label>
+                        <label for='age-max'>Edad máxima</label>
                         <input type='number' id='age-max' class="input-field" min='18' max='100'>
                     </div>
                     <div class="form-group">
-                        <label>Ciudad</label>
-                        <div class='city-options'>
-                            <label><input type='checkbox' value='Vitoria'>Vitoria</label>
-                            <label><input type='checkbox' value='Bilbao'>Bilbao</label>
-                            <label><input type='checkbox' value='Donosti'>Donosti</label>
-                        </div>
+                        <label for="city-select">Ciudad</label>
+                        <select id="city-select" class="input-field">
+                            <option value="" disabled selected>Selecciona una ciudad</option>
+                            <option value="Vitoria">Vitoria</option>
+                            <option value="Bilbao">Bilbao</option>
+                            <option value="Donosti">Donosti</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn-search">Buscar</button>
                 </form>
@@ -59,8 +57,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <footer class="footer">
             <p>&copy; 2024 VitoMaite10 - Encuentra el amor</p>
             <p>
-                Siguenos en:
-                <a href="#">Faceboook</a>
+                Síguenos en:
+                <a href="#">Facebook</a>
                 <a href="#">Twitter</a>
                 <a href="#">Instagram</a>
             </p>

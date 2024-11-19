@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html>
     <head>
         <title>VitoMait10 - Encuentra el amor</title>
@@ -15,6 +11,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <header class='header'>
             <img src='images/logo.png' alt="Logo de VitoMaite10" class='logo'>
             <h1 class='header-title'>VitoMaite</h1>
+            <button class="btn-logout">Logout</button>
         </header>
         
         <!-- comment -->
@@ -33,6 +30,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <div class='form-group'>
                         <label for="gender-search">¿Que estoy buscando?</label>
                         <select id='gender-search' class="input-field">
+                            <option value="" disabled selected>¿Que buscas?</option>
                             <option value="H-M">Soy hombre y busco mujer</option>
                             <option value="H-H">Soy hombre y busco hombre</option>
                             <option value="H-A">Soy hombre y busco ambos</option>
@@ -50,12 +48,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <input type='number' id='age-max' class="input-field" min='18' max='100'>
                     </div>
                     <div class="form-group">
-                        <label>Ciudad</label>
-                        <div class='city-options'>
-                            <label><input type='checkbox' value='Vitoria'>Vitoria</label>
-                            <label><input type='checkbox' value='Bilbao'>Bilbao</label>
-                            <label><input type='checkbox' value='Donosti'>Donosti</label>
-                        </div>
+                        <label for="city-select">Ciudad</label>
+                        <select id="city-select" class="input-field">
+                            <option value="" disabled selected>Selecciona una ciudad</option>
+                            <option value="Vitoria">Vitoria</option>
+                            <option value="Bilbao">Bilbao</option>
+                            <option value="Donosti">Donosti</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn-search">Buscar</button>
                 </form>

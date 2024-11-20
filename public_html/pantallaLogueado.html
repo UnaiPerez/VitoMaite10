@@ -11,7 +11,11 @@
         <header class='header'>
             <img src='images/logo.png' alt="Logo de VitoMaite10" class='logo'>
             <h1 class='header-title'>VitoMaite</h1>
-            <button class="btn-logout">Logout</button>
+            <div class="userInfo">
+                <span id="username"></span>
+                <img id="userPhoto" class="userPhoto" alt="Foto del usuario">
+                <button type="button" class="btn-logout" id="btn-logout">Logout</button>
+            </div>
         </header>
         
         <!-- comment -->
@@ -71,5 +75,7 @@
                 <a href="#">Instagram</a>
             </p>
         </footer>
+        <script src="js/index.js"></script>
+        <script src="js/logueado.js"></script>
     </body>
 </html>

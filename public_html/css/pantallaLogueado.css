@@ -59,6 +59,30 @@ body {
     background-color: #ee5253;
 }
 
+/* Estilo para el contenedor de información del usuario */
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre la foto y el texto */
+    padding: 5px 10px;
+}
+
+/* Estilo para la foto del usuario */
+.userPhoto {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Hacer la foto circular */
+    object-fit: cover; /* Ajustar la foto al contenedor sin deformarla */
+}
+
+/* Estilo para el nombre del usuario */
+#username {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+
 /* Funcionalidades */
 .functionalities {
     width: 100%;

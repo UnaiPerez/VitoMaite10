@@ -104,23 +104,8 @@ select:focus {
     outline: none;
 }
 
-/* Checkboxes de aficiones */
-#hobbies-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-#hobbies-container label {
-    font-weight: normal;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
 /* Botón de registro */
-button[type="submit"] {
+.btn-register {
     background-color: #4a4e69;
     color: white;
     padding: 10px;
@@ -129,11 +114,26 @@ button[type="submit"] {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 1s ease;
 }
 
-button[type="submit"]:hover {
+.btn-register:hover {
     background-color: #22223b;
+}
+
+.login-link {
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.login-link a {
+    color: #4a4e69;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    color: #22223b;
 }
 
 /* Pie de página */

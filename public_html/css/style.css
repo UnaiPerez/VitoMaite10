@@ -56,8 +56,22 @@ body {
     transition: background-color 0.3s ease;
 }
 
+/* Estilo para el botón de login */
+.btn-login {
+    display: inline-block; /* Asegura que se comporte como un botón */
+    padding: 10px 20px;    /* Espaciado interno */
+    background-color: #007BFF; /* Color de fondo azul */
+    color: #fff;           /* Color del texto blanco */
+    text-decoration: none; /* Sin subrayado */
+    border-radius: 5px;    /* Bordes redondeados */
+    font-weight: bold;     /* Negrita para el texto */
+    text-align: center;    /* Centrar texto */
+    cursor: pointer;       /* Cambiar el cursor a "mano" */
+}
+
+/* Efecto hover para el botón */
 .btn-login:hover {
-    background-color: #eeff44;
+    background-color: #0056b3; /* Color de fondo más oscuro */
 }
 
 /* Funcionalidades */

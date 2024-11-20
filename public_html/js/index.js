@@ -6,12 +6,28 @@ function initDB() {
     request.onupgradeneeded = function (event) {
         db = event.target.result;
 
+        // Crear el Object Store "usuario" si no existe
         if (!db.objectStoreNames.contains('usuario')) {
             const userStore = db.createObjectStore('usuario', { keyPath: 'email' });
             console.log('Tabla "usuario" creada.');
         }
-        
-        const usuarios = [
+    };
+
+    request.onsuccess = function (event) {
+        db = event.target.result;
+        console.log('Base de datos abierta con éxito.');
+
+        // Llamar a la función para añadir usuarios iniciales
+        addInitialUsers();
+    };
+
+    request.onerror = function (event) {
+        console.error('Error al abrir la base de datos:', event.target.errorCode);
+    };
+}
+
+function addInitialUsers() {
+    const usuarios = [
         {
             email: 'juan1234@gmail.com',
             contraseña: 'juan1234',
@@ -67,36 +83,40 @@ function initDB() {
             longitud: -1.9952225,
             foto: 'images/perfilHombre.png'
         }
-        
     ];
 
-    usuarios.forEach(user => {
-        addUser(user);
-    });
-    };
-
-    request.onsuccess = function (event) {
-        db = event.target.result;
-        console.log('Base de datos abierta con éxito.');
-    };
-
-    request.onerror = function (event) {
-        console.error('Error al abrir la base de datos:', event.target.errorCode);
-    };
-}
-
-function addUser(user) {
     const transaction = db.transaction(['usuario'], 'readwrite');
     const userStore = transaction.objectStore('usuario');
 
-    const request = userStore.add(user);
+    usuarios.forEach(user => {
+        const request = userStore.get(user.email);
 
-    request.onsuccess = function () {
-        console.log(`Usuario ${user.email} añadido con éxito.`);
+        request.onsuccess = function (event) {
+            if (!event.target.result) {
+                // Solo agregar si no existe
+                const addRequest = userStore.add(user);
+                addRequest.onsuccess = function () {
+                    console.log(`Usuario ${user.email} añadido con éxito.`);
+                };
+                addRequest.onerror = function (error) {
+                    console.error(`Error al añadir usuario ${user.email}:`, error.target.error);
+                };
+            } else {
+                console.log(`Usuario ${user.email} ya existe. No se añadió.`);
+            }
+        };
+
+        request.onerror = function (error) {
+            console.error(`Error al verificar usuario ${user.email}:`, error.target.error);
+        };
+    });
+
+    transaction.oncomplete = function () {
+        console.log('Verificación e inserción de usuarios iniciales completada.');
     };
 
-    request.onerror = function (event) {
-        console.error(`Error al añadir usuario ${user.email}:`, event.target.error);
+    transaction.onerror = function (event) {
+        console.error('Error en la transacción de usuarios iniciales:', event.target.error);
     };
 }
 

@@ -19,9 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const userNameElement = document.getElementById('username');
     const userPhotoElement = document.getElementById('userPhoto');
 
-    userNameElement.textContent = `Hola, ${loggedInUser.nombre}`;
-    userPhotoElement.src = loggedInUser.foto; // Base64 o URL
-    userPhotoElement.alt = `Foto de ${loggedInUser.nombre}`;
+    if (userNameElement) {
+        userNameElement.textContent = `Hola, ${loggedInUser.nombre}`;
+    }
+
+    if (userPhotoElement) {
+        userPhotoElement.src = loggedInUser.foto; // Base64 o URL
+        userPhotoElement.alt = `Foto de ${loggedInUser.nombre}`;
+    }
 
     // Vincular el botón de logout
     const logoutBtn = document.getElementById('btn-logout');

@@ -1,15 +1,30 @@
 let db;
 
 function initDB() {
-    const request = indexedDB.open('vitomaite10', 1);
+    let request = indexedDB.open('vitomaite10', 1);
 
     request.onupgradeneeded = function (event) {
         db = event.target.result;
 
-        // Crear el Object Store "usuario" si no existe
+        // Crear las tablas necesarias en caso de no existir
         if (!db.objectStoreNames.contains('usuario')) {
-            const userStore = db.createObjectStore('usuario', { keyPath: 'email' });
+            db.createObjectStore('usuario', { keyPath: 'email' });
             console.log('Tabla "usuario" creada.');
+        }
+        
+        if(!db.objectStoreNames.contains('aficion')){
+            db.createObjectStore('aficion', {keyPath: 'id', autoIncrement: true});
+            console.log('Tabla "aficion" creada.');
+        }
+        
+        if(!db.objectStoreNames.contains('usuAfi')){
+            db.createObjectStore('usuAfi', {keyPath: ['emailUsuario', 'idAficion']});
+            console.log('Tabla "usuAfi" creada.');
+        }
+        
+        if(!db.objectStoreNames.contains('meGusta')){
+            db.createObjectStore('meGusta', {keyPath: ['emailOrigen', 'emailDestino']});
+            console.log('Tabla "meGusta" creada.');
         }
     };
 
@@ -19,8 +34,10 @@ function initDB() {
 
         // Llamar a la función para añadir usuarios iniciales
         addInitialUsers();
+        addAficiones();
     };
-
+    
+  
     request.onerror = function (event) {
         console.error('Error al abrir la base de datos:', event.target.errorCode);
     };
@@ -85,16 +102,16 @@ function addInitialUsers() {
         }
     ];
 
-    const transaction = db.transaction(['usuario'], 'readwrite');
-    const userStore = transaction.objectStore('usuario');
+    let transaction = db.transaction(['usuario'], 'readwrite');
+    let userStore = transaction.objectStore('usuario');
 
     usuarios.forEach(user => {
-        const request = userStore.get(user.email);
+        let request = userStore.get(user.email);
 
         request.onsuccess = function (event) {
             if (!event.target.result) {
                 // Solo agregar si no existe
-                const addRequest = userStore.add(user);
+                let addRequest = userStore.add(user);
                 addRequest.onsuccess = function () {
                     console.log(`Usuario ${user.email} añadido con éxito.`);
                 };
@@ -119,7 +136,65 @@ function addInitialUsers() {
         console.error('Error en la transacción de usuarios iniciales:', event.target.error);
     };
 }
+// Añadir aficiones iniciales
+function addAficiones() {
+    const aficiones = [
+        'Cine',
+        'Ajedrez',
+        'Teatro',
+        'Futbol',
+        'Lectura',
+        'Bicicleta',
+        'Musica',
+        'Tenis',
+        'Baloncesto',
+        'Programacion',
+        'Videojuegos',
+        'Cocina',
+        'Manualidades',
+        'Mus'
+    ];
 
+    let transaction = db.transaction(['aficion'], 'readonly');
+    let aficionStore = transaction.objectStore('aficion');
+    let request = aficionStore.getAll(); // Obtener todas las aficiones existentes
 
-// Inicializamos la base de datos
+    request.onsuccess = function (event) {
+        let existingAficiones = event.target.result.map(afi => afi.nombre); // Extraer los nombres existentes
+
+        const nuevasAficiones = aficiones.filter(nombre => !existingAficiones.includes(nombre)); // Filtrar las nuevas aficiones
+
+        if (nuevasAficiones.length > 0) {
+            let writeTransaction = db.transaction(['aficion'], 'readwrite');
+            let aficionWriteStore = writeTransaction.objectStore('aficion');
+
+            nuevasAficiones.forEach(nombre => {
+                let addRequest = aficionWriteStore.add({ nombre });
+
+                addRequest.onsuccess = function () {
+                    console.log(`Afición añadida: ${nombre}`);
+                };
+
+                addRequest.onerror = function (event) {
+                    console.error('Error añadiendo la afición:', event.target.error);
+                };
+            });
+
+            writeTransaction.oncomplete = function () {
+                console.log('Aficiones iniciales añadidas.');
+            };
+
+            writeTransaction.onerror = function (event) {
+                console.error('Error en la transacción de aficiones:', event.target.error);
+            };
+        } else {
+            console.log('Todas las aficiones ya existen. No se añadieron nuevas aficiones.');
+        }
+    };
+
+    request.onerror = function (event) {
+        console.error('Error al verificar aficiones existentes:', event.target.error);
+    };
+}
+        
 initDB();

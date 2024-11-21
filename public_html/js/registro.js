@@ -1,4 +1,18 @@
 
+//Empezar abriendo la conexion
+function openDB() {
+    let request = indexedDB.open('vitomaite10', 1);
+
+    request.onsuccess = function (event) {
+        let db = event.target.result;
+        console.log('Base de datos abierta con éxito.');
+    };
+
+    request.onerror = function (event) {
+        console.error('Error al abrir la base de datos:', event.target.errorCode);
+        alert('Hubo un problema al conectarse a la base de datos.');
+    };
+}
 // Función para manejar el registro de usuarios
 function registerUser() {
     // Capturar los datos del formulario
@@ -15,6 +29,19 @@ function registerUser() {
     // Validar datos básicos
     if (!email || !password || !name || !city || isNaN(latitud) || isNaN(longitud) || isNaN(age) || !gender || !photoFile) {
         alert('Por favor, completa todos los campos correctamente.');
+        return;
+    }
+    
+    // Validar la correcta estructura del email
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Por favor, ingresa un correo electrónico válido.');
+        return;
+    }
+    
+    //comprobar edad minima
+    if (age < 18){
+        alert('Por favor, ingrese una edad valida (Mayor de 18).');
         return;
     }
 
@@ -41,23 +68,23 @@ function registerUser() {
     reader.readAsDataURL(photoFile);
 }
 
-// Guardar usuario en IndexedDB
+// Guardar el usuario usuario
 function saveUserToDB(user) {
-    const transaction = db.transaction(['usuario'], 'readwrite');
-    const userStore = transaction.objectStore('usuario');
+    let transaction = db.transaction(['usuario'], 'readwrite');
+    let userStore = transaction.objectStore('usuario');
 
     // Verificar si el email ya está registrado
-    const request = userStore.get(user.email);
+    let request = userStore.get(user.email);
     request.onsuccess = function (event) {
         if (event.target.result) {
-            alert('El correo ya está registrado. Por favor, inicia sesión.');
+            alert('El correo ya está registrado. Por favor, utiliza otro correo o inicia sesión.');
         } else {
             // Agregar el nuevo usuario
             const addRequest = userStore.add(user);
 
             addRequest.onsuccess = function () {
                 alert('Usuario registrado con éxito.');
-                window.location.href = 'login.html'; // Redirigir al login
+                window.location.href = 'login.html';
             };
 
             addRequest.onerror = function (error) {
@@ -71,7 +98,7 @@ function saveUserToDB(user) {
     };
 }
 
-// Inicializar la base de datos cuando el DOM esté listo
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // Vincular el botón de registro

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Aficiones</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <img src="images/logo.png" alt="Logo de VitoMaite" class="logo">
+        <h1 class="header-title">Añadir Aficiones</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="afi-container">
+            <h2>Selecciona una afición para añadir</h2>
+            <form id="add-afi-form">
+                <label for="afi-select">Afición</label>
+                <select id="afi-select" required>
+                    <!-- Opciones dinámicas generadas desde IndexedDB -->
+                </select>
+                <button type="button" id="btn-add-afi">Añadir Afición</button>
+            </form>
+            <a href="pantallaLogueado.html" class="back-link">Volver</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 VitoMaite - Encuentra el amor</p>
+    </footer>
+
+    <script src="js/añadirAfi.js"></script>
+</body>
+</html>
+

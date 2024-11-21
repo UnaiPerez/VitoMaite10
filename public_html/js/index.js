@@ -196,5 +196,52 @@ function addAficiones() {
         console.error('Error al verificar aficiones existentes:', event.target.error);
     };
 }
+
+function manejarBusqueda(){
+    event.preventDefault(); // Prevenir cualquier recarga no deseada
+
+
+    let gender = document.getElementById('gender').value;
+    let ageMin = document.getElementById('age-min').value;
+    let ageMax = document.getElementById('age-max').value;
+    let city = document.getElementById('city').value;
+    
+    if(isNaN(ageMin) || isNaN(ageMax) || !gender){
+        alert('Por favor, introduce datos en todos los campos');
+        return;
+    }
+    
+    let transaction = db.transaction(['usuario'],'readonly');
+    let userStore = transaction.objectStore('usuario');
+    let request = userStore.getAll(); //para obtener todos los usuarios
+    
+    request.onsuccess = function (e){
+        let allUsers = e.target.result;
         
-initDB();
+        //Filtrar usuarios por los criterios indicados
+        let filteredUsers = allUsers.filter(user => {
+            let genderMatch =
+                gender === 'Todos' || user.genero === gender;
+            let ageMatch = user.edad >= ageMin && user.edad <= ageMax;
+            let cityMatch = !city || user.ciudad === city;
+
+            return genderMatch && ageMatch && cityMatch;
+        });
+        
+        // Guarda los resultados en sessionStorage y redirige
+        sessionStorage.setItem('searchResults', JSON.stringify(filteredUsers));
+        window.location.href = 'resultados.html';
+    };
+    
+}
+
+// Inicializar la base de datos y vincular el botón de búsqueda
+document.addEventListener('DOMContentLoaded', function () {
+        initDB();
+        let searchButton = document.getElementById('btn-search');
+        searchButton.addEventListener('click', manejarBusqueda);
+    });
+
+
+
+        

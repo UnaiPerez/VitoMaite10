@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const userPhotoElement = document.getElementById('userPhoto');
 
     if (userNameElement) {
-        userNameElement.textContent = `Hola, ${loggedInUser.nombre}`;
+        userNameElement.textContent = `¡Hola, ${loggedInUser.nombre}!`;
     }
 
     if (userPhotoElement) {

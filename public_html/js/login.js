@@ -8,73 +8,78 @@
 
 function iniciar() {
     var boton = document.getElementById("enviar");
-    boton.addEventListener("click", enviarFormulario);
+    boton.addEventListener("click", enviarformulario);
 }
 
-function enviarFormulario(event) {
-    event.preventDefault(); // Evita el envío predeterminado del formulario
+function enviarformulario(event) {
+    event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
 
-    // Obtención de los valores de los campos de correo y contraseña
+    // Obtener valores de los campos de correo y contraseña
     var correo = document.getElementById("correo").value.trim();
     var contraseña = document.getElementById("contraseña").value.trim();
 
-    // Referencia al formulario
-    var formulario = document.getElementById("formulariolgin");
-
-    // Verificar que los campos no estén vacíos
+    var formulario = document.querySelector("form[name='formulariolgin']");
+    
+    // Comprobar que los campos no están vacíos
     if (correo === "" || contraseña === "") {
         alert("Por favor, completa todos los campos.");
         return;
     }
 
-    // Abrir conexión con IndexedDB
-    var solicitud = indexedDB.open("VitoMaiteBD", 1);
+    // Abrir la base de datos IndexedDB
+    var solicitud = indexedDB.open("basededatosUsuarios", 1);
 
-    solicitud.onerror = function (evento) {
+    solicitud.addEventListener("error", function (evento) {
         console.error("Error al abrir la base de datos: ", evento.target.error);
-        alert("Ocurrió un problema al conectar con la base de datos. Inténtalo más tarde.");
-    };
+    });
 
-    solicitud.onsuccess = function (evento) {
+    solicitud.addEventListener("success", function (evento) {
         var bd = evento.target.result;
 
-        // Iniciar una transacción de solo lectura
-        var transaction = bd.transaction(["usuarios"], "readonly");
-        var coleccionUsuarios = transaction.objectStore("usuarios");
+        // Verificar si el almacén 'usuarios' existe
+        if (!bd.objectStoreNames.contains("usuarios")) {
+            console.error("El almacén 'usuarios' no existe. Asegúrate de que la base de datos está correctamente inicializada.");
+            return;
+        }
 
-        // Intentar obtener el usuario por correo
-        var consulta = coleccionUsuarios.get(correo);
-
-        consulta.onsuccess = function (evento) {
-            var usuario = evento.target.result;
+        // Iniciar la transacción de solo lectura
+        var transaction = bd.transaction("usuarios", "readonly");
+        
+        // Obtener el almacén 'usuarios' de la transacción
+        var colecUsuarios = transaction.objectStore("usuarios");
+        
+        // Buscar en la colección para encontrar al usuario con el correo
+        var encontrado = colecUsuarios.get(correo);
+        
+        // En caso de encontrarlo
+        encontrado.onsuccess = function (event) {
+            var usuario = event.target.result;
 
             if (usuario && usuario.contraseña === contraseña) {
-                // Usuario encontrado y contraseña correcta
+                // Guardar datos del usuario en localStorage y redirigir
                 localStorage.setItem("nombre", usuario.nombre);
-                localStorage.setItem("correo", usuario.correo);
+                localStorage.setItem("correo", usuario.email);
                 localStorage.setItem("foto", usuario.foto);
 
-                alert(`¡Bienvenido/a, ${usuario.nombre}!`);
-                window.location.href = "logeado.html"; // Redirigir a la página logeado
+                alert("Bienvenido, " + usuario.nombre);
+                window.location.href = 'logeado.html';
             } else {
                 // Usuario no encontrado o contraseña incorrecta
-                alert("Correo o contraseña incorrectos. Inténtalo de nuevo.");
-                window.location.href = "hacerlogin.html"; // Redirigir al login nuevamente
+                alert("Los datos introducidos no son correctos.");
+                window.location.href = 'hacerlogin.html';
             }
         };
 
-        consulta.onerror = function () {
-            alert("Error al buscar el usuario. Inténtalo de nuevo.");
+        encontrado.onerror = function () {
+            console.error("Error al buscar el usuario en el almacén 'usuarios'.");
         };
-    };
+    });
 
-    solicitud.onupgradeneeded = function (evento) {
-        var bd = evento.target.result;
-        console.warn("La base de datos necesita ser configurada. Crea el objectStore 'usuarios'.");
-    };
+    solicitud.addEventListener("upgradeneeded", function (evento) {
+        console.warn("La base de datos necesita ser configurada. Asegúrate de que el almacén 'usuarios' esté creado.");
+    });
 }
 
 window.addEventListener("load", iniciar);
-
 
 

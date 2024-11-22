@@ -93,12 +93,89 @@ function addInitialUsers() {
             email: 'ibai@gmail.com',
             contraseña: '1234',
             nombre: 'Ibai',
-            ciudad: 'Donostia',
-            edad: 22,
+            ciudad: 'Bilbao',
+            edad: 20,
             genero: 'M',
             latitud: 43.3035169,
             longitud: -1.9952225,
             foto: 'images/perfilHombre.png'
+        },
+        {
+            email: 'messi@gmail.com',
+            contraseña: 'messi10',
+            nombre: 'Leo',
+            ciudad: 'Donosti',
+            edad: 38,
+            genero: 'M',
+            latitud: 43.3064427,
+            longitud: -2.0152694,
+            foto: 'images/messi.jpg'
+        },
+        {
+            email: 'javi@gmail.com',
+            contraseña: 'javi1234',
+            nombre: 'Javi',
+            ciudad: 'Vitoria',
+            edad: 25,
+            genero: 'M',
+            latitud: 42.8451756,
+            longitud: -2.6724441,
+            foto: 'images/perfilHombre.png'
+        },
+        {
+            email: 'lander@gmail.com',
+            contraseña: 'Lander1234',
+            nombre: 'Lander',
+            ciudad: 'Donosti',
+            edad: 44,
+            genero: 'M',
+            latitud: 43.3109903,
+            longitud: -2.0062042,
+            foto: 'images/perfilHombre.png'
+        },
+        {
+            email: 'ana@gmail.com',
+            contraseña: 'Ana1234',
+            nombre: 'Ana',
+            ciudad: 'Donosti',
+            edad: 31,
+            genero: 'F',
+            latitud: 43.3051716,
+            longitud: -1.9772279,
+            foto: 'images/perfilMujer.png'
+        },
+        {
+            email: 'akane@gmail.com',
+            contraseña: 'Akane1234',
+            nombre: 'Akane',
+            ciudad: 'Vitoria',
+            edad: 23,
+            genero: 'F',
+            latitud: 42.8645218,
+            longitud: -2.6799322,
+            foto: 'images/perfilMujer.png'
+        },
+        {
+            email: 'aroa@gmail.com',
+            contraseña: 'Aroa1234',
+            nombre: 'Aroa',
+            ciudad: 'Bilbao',
+            edad: 33,
+            genero: 'F',
+            latitud: 43.2577946,
+            longitud: -2.9225219,
+            foto: 'images/perfilMujer.png'
+        },
+        {
+            email: 'maria@gmail.com',
+            contraseña: 'Maria1234',
+            nombre: 'Maria',
+            ciudad: 'Vitoria',
+            edad: 54,
+            genero: 'F',
+            latitud: 42.8604922,
+            longitud: -2.6836135,
+            foto: 'images/perfilMujer.png'
         }
     ];
 
@@ -197,7 +274,7 @@ function addAficiones() {
     };
 }
 
-function manejarBusqueda(){
+function manejarBusqueda(event){
     event.preventDefault(); // Prevenir cualquier recarga no deseada
 
 
@@ -228,19 +305,64 @@ function manejarBusqueda(){
             return genderMatch && ageMatch && cityMatch;
         });
         
-        // Guarda los resultados en sessionStorage y redirige
+        // Guarda los resultados en sessionStorage y muestra los 
         sessionStorage.setItem('searchResults', JSON.stringify(filteredUsers));
         window.location.href = 'resultados.html';
     };
     
 }
 
+ function manejarBusquedaLogueado(event) {
+        const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+        event.preventDefault();
+
+        const gender = document.getElementById('gender').value;
+        const ageMin = parseInt(document.getElementById('age-min').value, 10);
+        const ageMax = parseInt(document.getElementById('age-max').value, 10);
+        const city = document.getElementById('city').value;
+
+        if (isNaN(ageMin) || isNaN(ageMax) || !gender) {
+            alert('Por favor, completa todos los campos.');
+            return;
+        }
+
+        const transaction = db.transaction(['usuario'], 'readonly');
+        const userStore = transaction.objectStore('usuario');
+
+        userStore.getAll().onsuccess = function (event) {
+            const allUsers = event.target.result;
+
+            const filteredUsers = allUsers.filter(user => {
+                const genderMatch = gender === 'Todos' || user.genero === gender;
+                const ageMatch = user.edad >= ageMin && user.edad <= ageMax;
+                const cityMatch = !city || user.ciudad === city;
+
+                // Excluir al usuario logueado
+                const notLoggedInUser = user.email !== loggedInUser.email;
+
+                return genderMatch && ageMatch && cityMatch && notLoggedInUser;
+            });
+
+            sessionStorage.setItem('searchResults', JSON.stringify(filteredUsers));
+            window.location.href = 'resultadosLogueado.html';
+        };
+    }
+
 // Inicializar la base de datos y vincular el botón de búsqueda
 document.addEventListener('DOMContentLoaded', function () {
-        initDB();
-        let searchButton = document.getElementById('btn-search');
+    initDB();
+
+    let searchButton = document.getElementById('btn-search');
+    if (searchButton) {
         searchButton.addEventListener('click', manejarBusqueda);
-    });
+    }
+
+    let searchButtonLogueado = document.getElementById('btn-search-logueado');
+    if (searchButtonLogueado) {
+        searchButtonLogueado.addEventListener('click', manejarBusquedaLogueado);
+    }
+});
+
 
 
 

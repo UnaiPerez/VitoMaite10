@@ -32,15 +32,15 @@
                 <h2>Buscar Solteros/as</h2>
                 <form id='form-group'>
                     <div class='form-group'>
-                        <label for="gender-search">¿Que estoy buscando?</label>
-                        <select id='gender-search' class="input-field">
+                        <label for="gender">¿Qué estoy buscando?</label>
+                        <select id='gender' class="input-field">
                             <option value="" disabled selected>¿Que buscas?</option>
-                            <option value="H-M">Soy hombre y busco mujer</option>
-                            <option value="H-H">Soy hombre y busco hombre</option>
-                            <option value="H-A">Soy hombre y busco ambos</option>
-                            <option value="M-M">Soy mujer y busco mujer</option>
-                            <option value="M-H">Soy mujer y busco hombre</option>
-                            <option value="M-A">Soy mujer y busco ambos</option>
+                            <option value="F">Soy hombre y busco mujer</option>
+                            <option value="M">Soy hombre y busco hombre</option>
+                            <option value="Todos">Soy hombre y busco ambos</option>
+                            <option value="F">Soy mujer y busco mujer</option>
+                            <option value="M">Soy mujer y busco hombre</option>
+                            <option value="Todos">Soy mujer y busco ambos</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -52,15 +52,15 @@
                         <input type='number' id='age-max' class="input-field" min='18' max='100'>
                     </div>
                     <div class="form-group">
-                        <label for="city-select">Ciudad</label>
-                        <select id="city-select" class="input-field">
+                        <label for="city">Ciudad</label>
+                        <select id="city" class="input-field">
                             <option value="" disabled selected>Selecciona una ciudad</option>
                             <option value="Vitoria">Vitoria</option>
                             <option value="Bilbao">Bilbao</option>
                             <option value="Donosti">Donosti</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn-search">Buscar</button>
+                    <button type="button" class="btn-search-logueado" id="btn-search-logueado">Buscar</button>
                 </form>
             </div>
         </main>
@@ -75,7 +75,8 @@
                 <a href="#">Instagram</a>
             </p>
         </footer>
+        
         <script src="js/index.js"></script>
-        <script src="js/logueado.js"></script>
+        <script src="js/logueado.js"></script>  
     </body>
 </html>

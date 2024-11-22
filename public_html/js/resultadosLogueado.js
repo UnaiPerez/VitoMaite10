@@ -22,9 +22,10 @@ document.addEventListener('DOMContentLoaded', function () {
             <img src="${user.foto}" alt="Foto de ${user.nombre}" class="user-photo">
             <h3>${user.nombre}, ${user.edad}</h3>
             <p>${user.ciudad}</p>
-            <a href="login.html">Inicia sesión para ver más detalles</a>
+            <a href="detalles.html">Ver más detalles</a>
         `;
 
         resultsContainer.appendChild(userCard);
     });
 });
+

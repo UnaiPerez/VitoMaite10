@@ -176,7 +176,7 @@ body {
     accent-color: #4a4e69;
 }
 
-.btn-search {
+.btn-search-logueado {
     width: 100%;
     padding: 10px;
     background-color: #4a4e69;
@@ -190,7 +190,7 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.btn-search:hover {
+.btn-search-logueado:hover {
     background-color: #222256;
 }
 

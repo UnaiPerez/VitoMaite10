@@ -3,83 +3,90 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
 
-
-let db;
-
-// Abrir la base de datos
-function openDB(callback) {
-    let request = indexedDB.open('vitomaite10', 1);
-
-    request.onsuccess = function (event) {
-        db = event.target.result;
-        console.log('Base de datos abierta en añadir aficiones.');
-        callback();
-    };
-
-    request.onerror = function (event) {
-        console.error('Error al abrir la base de datos:', event.target.errorCode);
-        alert('No se pudo conectar a la base de datos.');
-    };
-}
-
-// Cargar las opciones de aficiones desde la tabla "aficion"
-function loadAficiones() {
-    let transaction = db.transaction(['aficion'], 'readonly');
-    let aficionStore = transaction.objectStore('aficion');
-
-    let request = aficionStore.getAll();
-
-    request.onsuccess = function (event) {
-        let aficiones = event.target.result;
-        let afiSelect = document.getElementById('afi-select');
-
-        aficiones.forEach(afi => {
-            let option = document.createElement('option');
-            option.value = afi.id;
-            option.textContent = afi.nombre;
-            afiSelect.appendChild(option);
-        });
-    };
-
-    request.onerror = function () {
-        console.error('Error al cargar las aficiones.');
-    };
-}
-
-// Añadir una afición al usuario logueado
-function addUsuAfi() {
-    let emailUsuario = JSON.parse(sessionStorage.getItem('loggedInUser')).email;
-    let idAficion = parseInt(document.getElementById('afi-select').value);
-
-    if (!emailUsuario || isNaN(idAficion)) {
-        alert('Por favor, selecciona una afición válida.');
-        return;
+document.addEventListener('DOMContentLoaded', function() {
+    let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+    let aficionesContainer =document.getElementById('aficiones-container');
+    let btnAdd = document.getElementById('btn-add-aficiones');
+    
+    //Obtener todas las aficiones de la tabla
+    function cargarAficionesDisponibles(){
+        let request = indexedDB.open('vitomaite10', 1);
+        
+        request.onsuccess = function(e){
+            let db = e.target.result;
+            
+            let aficionesTransaction = db.transaction(['aficion'],'readonly');
+            let aficionStore = aficionesTransaction.objectStore('aficion');
+            let aficionRequest = aficionStore.getAll();
+            
+            aficionRequest.onsuccess = function(e){
+                let todasAficiones = e.target.result;
+                
+                //Ahora conseguir las aficiones añadidas por el usuario
+                let usuAfiTransaction = db.transaction(['usuAfi'],'readonly');
+                let usuAfiStore = usuAfiTransaction.objectStore('usuAfi');
+                let usuAfiRequest = usuAfiStore.getAll();
+                usuAfiRequest.onsuccess = function(e) {
+                    let aficionesUsu = e.target.result
+                            .filter(usuAfi => usuAfi.emailUsuario === loggedInUser.email)
+                            .map(usuAfi => usuAfi.idAficion);
+                    
+                    //Filtrar solo las aficiones no añadidas por el usuario
+                    let aficionesDisponibles = todasAficiones.filter(
+                            aficion => !aficionesUsu.includes(aficion.id)
+                            );
+                    
+                    if(aficionesDisponibles.length === 0) {
+                        aficionesContainer.innerHTML = '<p>No hay aficiones disponibles</p>';
+                    } else {
+                        aficionesDisponibles.forEach(aficion => {
+                            let checkbox = document.createElement('div');
+                            checkbox.innerHTML = `
+                               <label>
+                                    <input type="checkbox" value="${aficion.id}"> ${aficion.nombre}
+                               </label>
+                            `;
+                            aficionesContainer.appendChild(checkbox);
+                        });
+                    }
+                };
+            };
+        };
     }
-
-    let transaction = db.transaction(['usuAfi'], 'readwrite');
-    let usuAfiStore = transaction.objectStore('usuAfi');
-
-    let request = usuAfiStore.add({ emailUsuario, idAficion });
-
-    request.onsuccess = function () {
-        alert('Afición añadida con éxito.');
-    };
-
-    request.onerror = function (event) {
-        if (event.target.error.name === 'ConstraintError') {
-            alert('Ya tienes esta afición añadida.');
-        } else {
-            console.error('Error al añadir la afición:', event.target.error);
+    
+    //añadir las aficiones
+    btnAdd.addEventListener('click', function(){
+        let checkboxes = aficionesContainer.querySelectorAll('input[type="checkbox"]:checked');
+        if(checkboxes.lenght === 0){
+            alert('Seleccione al menos una aficion para añadir, por favor');
+            return;
         }
-    };
-}
-
-// Inicializar
-document.addEventListener('DOMContentLoaded', function () {
-    openDB(() => {
-        loadAficiones();
-
-        let addButton = document.getElementById('btn-add-afi');
-        addButton.addEventListener('click', addUsuAfi);
+        
+        let request = indexedDB.open('vitomaite10', 1);
+        
+        
+        request.onsuccess = function(e){
+            let db = e.target.result;
+            let transaction = db.transaction(['usuAfi'],'readwrite');
+            let usuAfiStore = transaction.objectStore('usuAfi');
+            
+            checkboxes.forEach(checkbox => {
+                let idAficion = parseInt(checkbox.value, 10);
+                let nuevaAficion = {
+                    emailUsuario: loggedInUser.email,
+                    idAficion: idAficion
+                };
+                
+                usuAfiStore.add(nuevaAficion).onsuccess = function(){
+                    console.log(`Aficion con ID ${idAficion} añadida.`);
+                };
+            });
+            
+            transaction.oncomplete = function (){
+                alert('Aficiones añadidas correctamente.');
+                window.location.href = 'pantallaLogueado.html';
+            };
+        };
     });
+     cargarAficionesDisponibles();
 });

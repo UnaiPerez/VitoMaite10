@@ -8,7 +8,7 @@ let db;
 
 // Abrir la base de datos
 function openDB(callback) {
-    const request = indexedDB.open('vitomaite10', 1);
+    let request = indexedDB.open('vitomaite10', 1);
 
     request.onsuccess = function (event) {
         db = event.target.result;
@@ -24,17 +24,17 @@ function openDB(callback) {
 
 // Cargar las opciones de aficiones desde la tabla "aficion"
 function loadAficiones() {
-    const transaction = db.transaction(['aficion'], 'readonly');
-    const aficionStore = transaction.objectStore('aficion');
+    let transaction = db.transaction(['aficion'], 'readonly');
+    let aficionStore = transaction.objectStore('aficion');
 
-    const request = aficionStore.getAll();
+    let request = aficionStore.getAll();
 
     request.onsuccess = function (event) {
-        const aficiones = event.target.result;
-        const afiSelect = document.getElementById('afi-select');
+        let aficiones = event.target.result;
+        let afiSelect = document.getElementById('afi-select');
 
         aficiones.forEach(afi => {
-            const option = document.createElement('option');
+            let option = document.createElement('option');
             option.value = afi.id;
             option.textContent = afi.nombre;
             afiSelect.appendChild(option);
@@ -48,18 +48,18 @@ function loadAficiones() {
 
 // Añadir una afición al usuario logueado
 function addUsuAfi() {
-    const emailUsuario = JSON.parse(sessionStorage.getItem('loggedInUser')).email;
-    const idAficion = parseInt(document.getElementById('afi-select').value);
+    let emailUsuario = JSON.parse(sessionStorage.getItem('loggedInUser')).email;
+    let idAficion = parseInt(document.getElementById('afi-select').value);
 
     if (!emailUsuario || isNaN(idAficion)) {
         alert('Por favor, selecciona una afición válida.');
         return;
     }
 
-    const transaction = db.transaction(['usuAfi'], 'readwrite');
-    const usuAfiStore = transaction.objectStore('usuAfi');
+    let transaction = db.transaction(['usuAfi'], 'readwrite');
+    let usuAfiStore = transaction.objectStore('usuAfi');
 
-    const request = usuAfiStore.add({ emailUsuario, idAficion });
+    let request = usuAfiStore.add({ emailUsuario, idAficion });
 
     request.onsuccess = function () {
         alert('Afición añadida con éxito.');
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     openDB(() => {
         loadAficiones();
 
-        const addButton = document.getElementById('btn-add-afi');
+        let addButton = document.getElementById('btn-add-afi');
         addButton.addEventListener('click', addUsuAfi);
     });
 });

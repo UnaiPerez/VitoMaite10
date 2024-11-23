@@ -4,9 +4,9 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
-    const resultsContainer = document.getElementById('results-container');
+    let resultsContainer = document.getElementById('results-container');
 
-    const results = JSON.parse(sessionStorage.getItem('searchResults'));
+    let results = JSON.parse(sessionStorage.getItem('searchResults'));
 
     if (!results || results.length === 0) {
         resultsContainer.textContent = 'No se encontraron resultados.';
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     results.forEach(user => {
-        const userCard = document.createElement('div');
+        let userCard = document.createElement('div');
         userCard.classList.add('user-card');
 
 

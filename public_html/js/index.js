@@ -44,7 +44,7 @@ function initDB() {
 }
 
 function addInitialUsers() {
-    const usuarios = [
+    let usuarios = [
         {
             email: 'juan1234@gmail.com',
             contraseña: 'juan1234',
@@ -215,7 +215,7 @@ function addInitialUsers() {
 }
 // Añadir aficiones iniciales
 function addAficiones() {
-    const aficiones = [
+    let aficiones = [
         'Cine',
         'Ajedrez',
         'Teatro',
@@ -239,7 +239,7 @@ function addAficiones() {
     request.onsuccess = function (event) {
         let existingAficiones = event.target.result.map(afi => afi.nombre); // Extraer los nombres existentes
 
-        const nuevasAficiones = aficiones.filter(nombre => !existingAficiones.includes(nombre)); // Filtrar las nuevas aficiones
+        let nuevasAficiones = aficiones.filter(nombre => !existingAficiones.includes(nombre)); // Filtrar las nuevas aficiones
 
         if (nuevasAficiones.length > 0) {
             let writeTransaction = db.transaction(['aficion'], 'readwrite');
@@ -313,32 +313,32 @@ function manejarBusqueda(event){
 }
 
  function manejarBusquedaLogueado(event) {
-        const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+        let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
         event.preventDefault();
 
-        const gender = document.getElementById('gender').value;
-        const ageMin = parseInt(document.getElementById('age-min').value, 10);
-        const ageMax = parseInt(document.getElementById('age-max').value, 10);
-        const city = document.getElementById('city').value;
+        let gender = document.getElementById('gender').value;
+        let ageMin = parseInt(document.getElementById('age-min').value, 10);
+        let ageMax = parseInt(document.getElementById('age-max').value, 10);
+        let city = document.getElementById('city').value;
 
         if (isNaN(ageMin) || isNaN(ageMax) || !gender) {
             alert('Por favor, completa todos los campos.');
             return;
         }
 
-        const transaction = db.transaction(['usuario'], 'readonly');
-        const userStore = transaction.objectStore('usuario');
+        let transaction = db.transaction(['usuario'], 'readonly');
+        let userStore = transaction.objectStore('usuario');
 
         userStore.getAll().onsuccess = function (event) {
-            const allUsers = event.target.result;
+            let allUsers = event.target.result;
 
-            const filteredUsers = allUsers.filter(user => {
-                const genderMatch = gender === 'Todos' || user.genero === gender;
-                const ageMatch = user.edad >= ageMin && user.edad <= ageMax;
-                const cityMatch = !city || user.ciudad === city;
+            let filteredUsers = allUsers.filter(user => {
+                let genderMatch = gender === 'Todos' || user.genero === gender;
+                let ageMatch = user.edad >= ageMin && user.edad <= ageMax;
+                let cityMatch = !city || user.ciudad === city;
 
                 // Excluir al usuario logueado
-                const notLoggedInUser = user.email !== loggedInUser.email;
+                let notLoggedInUser = user.email !== loggedInUser.email;
 
                 return genderMatch && ageMatch && cityMatch && notLoggedInUser;
             });

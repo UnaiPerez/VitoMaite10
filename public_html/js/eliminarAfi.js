@@ -8,7 +8,7 @@ let db;
 
 // Abrir la base de datos
 function openDB(callback) {
-    const request = indexedDB.open('vitomaite10', 1);
+    let request = indexedDB.open('vitomaite10', 1);
 
     request.onsuccess = function (event) {
         db = event.target.result;
@@ -26,19 +26,19 @@ function openDB(callback) {
 function loadUserAficiones() {
     const emailUsuario = JSON.parse(sessionStorage.getItem('loggedInUser')).email;
 
-    const transaction = db.transaction(['usuAfi'], 'readonly');
-    const usuAfiStore = transaction.objectStore('usuAfi');
+    let transaction = db.transaction(['usuAfi'], 'readonly');
+    let usuAfiStore = transaction.objectStore('usuAfi');
 
-    const request = usuAfiStore.getAll();
+    let request = usuAfiStore.getAll();
 
     request.onsuccess = function (event) {
-        const relaciones = event.target.result;
-        const afiSelect = document.getElementById('afi-select');
+        let relaciones = event.target.result;
+        let afiSelect = document.getElementById('afi-select');
 
         relaciones
             .filter(rel => rel.emailUsuario === emailUsuario)
             .forEach(rel => {
-                const option = document.createElement('option');
+                let option = document.createElement('option');
                 option.value = rel.idAficion;
                 option.textContent = `Afición ID ${rel.idAficion}`;
                 afiSelect.appendChild(option);
@@ -52,13 +52,13 @@ function loadUserAficiones() {
 
 // Eliminar una afición del usuario logueado
 function deleteUsuAfi() {
-    const emailUsuario = JSON.parse(sessionStorage.getItem('loggedInUser')).email;
-    const idAficion = parseInt(document.getElementById('afi-select').value);
+    let emailUsuario = JSON.parse(sessionStorage.getItem('loggedInUser')).email;
+    let idAficion = parseInt(document.getElementById('afi-select').value);
 
-    const transaction = db.transaction(['usuAfi'], 'readwrite');
-    const usuAfiStore = transaction.objectStore('usuAfi');
+    let transaction = db.transaction(['usuAfi'], 'readwrite');
+    let usuAfiStore = transaction.objectStore('usuAfi');
 
-    const request = usuAfiStore.delete([emailUsuario, idAficion]);
+    let request = usuAfiStore.delete([emailUsuario, idAficion]);
 
     request.onsuccess = function () {
         alert('Afición eliminada con éxito.');
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
     openDB(() => {
         loadUserAficiones();
 
-        const removeButton = document.getElementById('btn-remove-afi');
+        let removeButton = document.getElementById('btn-remove-afi');
         removeButton.addEventListener('click', deleteUsuAfi);
     });
 });

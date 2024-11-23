@@ -6,7 +6,7 @@
 
 // Verificar si el usuario está logueado al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
-    const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+    let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
 
     // Si no hay usuario logueado, redirigir al login
     if (!loggedInUser) {
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Mostrar el nombre y la foto del usuario
-    const userNameElement = document.getElementById('username');
-    const userPhotoElement = document.getElementById('userPhoto');
+    let userNameElement = document.getElementById('username');
+    let userPhotoElement = document.getElementById('userPhoto');
 
     if (userNameElement) {
         userNameElement.textContent = `¡Hola, ${loggedInUser.nombre}!`;
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Vincular el botón de logout
-    const logoutBtn = document.getElementById('btn-logout');
+    let logoutBtn = document.getElementById('btn-logout');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', logoutUser);
     }

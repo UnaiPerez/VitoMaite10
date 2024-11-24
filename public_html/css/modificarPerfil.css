@@ -38,6 +38,20 @@
     padding: 10px 20px;
 }
 
+#drop-zone {
+    border: 2px dashed #ddd;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+#drop-zone.drag-over {
+    background-color: #f8f8f8;
+    border-color: #4a4e69;
+}
+
 .form-group {
     margin-bottom: 20px;
 }

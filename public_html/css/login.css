@@ -1,3 +1,4 @@
+
 /* Configuración general */
 * {
     margin: 0;
@@ -18,7 +19,6 @@ body {
 }
 
 /* Encabezado */
-/* Estilos del encabezado */
 .header {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
@@ -30,9 +30,9 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.logo {
-    width: 50px;
-    height: 50px;
+.header h1 {
+    font-size: 2em;
+    font-weight: bold;
 }
 
 .header-title {
@@ -43,7 +43,12 @@ body {
     transform: translateX(-50%); 
 }
 
-.btn-login {
+.logo {
+    width: 50px;
+    height: 50px;
+}
+
+.btn-back {
     padding: 10px 20px;
     background-color: #ff6b6b;
     color: #fff;
@@ -56,71 +61,32 @@ body {
     text-decoration: none;
 }
 
-/* Estilo para el botón de login */
-.btn-login {
-    display: inline-block; /* Asegura que se comporte como un botón */
-    padding: 10px 20px;    /* Espaciado interno */
-    background-color: #007BFF; /* Color de fondo azul */
-    color: #fff;           /* Color del texto blanco */
-    text-decoration: none; /* Sin subrayado */
-    border-radius: 5px;    /* Bordes redondeados */
-    font-weight: bold;     /* Negrita para el texto */
-    text-align: center;    /* Centrar texto */
-    cursor: pointer;       /* Cambiar el cursor a "mano" */
-}
-
-/* Efecto hover para el botón */
-.btn-login:hover {
-/*<<<<<<< HEAD*/
-    background-color: #0056b3; /* Color de fondo más oscuro */
-}
-
-/* Funcionalidades */
-.functionalities {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.9);
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.functionalities a {
-    color: #4a4e69;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1em;
-    padding: 10px 15px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.functionalities a:hover {
+.btn-back:hover {
     background-color: #ee5253;
     color: #fff;
 }
 
-/* Contenido principal */
-.main-content {
+/* Contenedor de Login */
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
     width: 100%;
     padding: 20px;
+    margin-top: 100px; /* Para evitar superposición con el header */
 }
 
-.search-container {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 20px;
+.login-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 400px;
     text-align: center;
+    width: 400px;
 }
 
-.search-container h2 {
+.login-box h2 {
     font-size: 1.8em;
     margin-bottom: 20px;
     color: #4a4e69;
@@ -138,7 +104,7 @@ body {
 
 .input-field {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-top: 5px;
     border-radius: 4px;
     border: 1px solid #ccc;
@@ -150,25 +116,7 @@ body {
     outline: none;
 }
 
-.city-options {
-    display: flex;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-.city-options label {
-    font-weight: bold;
-    color: #555;
-    display: flex;
-    align-items: center;
-}
-
-.city-options input[type="checkbox"] {
-    margin-right: 8px;
-    accent-color: #4a4e69;
-}
-
-.btn-search {
+.btn-login {
     width: 100%;
     padding: 10px;
     background-color: #4a4e69;
@@ -182,11 +130,26 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.btn-search:hover {
-    background-color: #222256;
+.btn-login:hover {
+    background-color: #22223b;
 }
 
-/* Pie de página */
+.register-link {
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.register-link a {
+    color: #4a4e69;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    color: #22223b;
+}
+
+/* Pie de Página */
 .footer {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
@@ -211,4 +174,3 @@ body {
 .footer a:hover {
     color: #fff;
 }
-

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Aficiones</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <img src="images/logo.png" alt="Logo de VitoMaite" class="logo">
+        <h1 class="header-title">Eliminar Aficiones</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="afi-container">
+            <h2>Tus aficiones</h2>
+            <form id="remove-afi-form">
+                <label for="afi-select">Afición</label>
+                <select id="afi-select" required>
+                    <!-- Opciones dinámicas generadas desde IndexedDB -->
+                </select>
+                <button type="button" id="btn-remove-afi">Eliminar Afición</button>
+            </form>
+            <a href="pantallaLogueado.html" class="back-link">Volver</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 VitoMaite - Encuentra el amor</p>
+    </footer>
+
+    <script src="js/eliminarAfi.js"></script>
+</body>
+</html>
+

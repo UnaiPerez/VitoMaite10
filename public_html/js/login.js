@@ -2,84 +2,63 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/javascript.js to edit this template
  */
-/**
- * Script para gestionar el inicio de sesión en VitoMaite10.
- */
+// Abrir la base de datos existente
+function openDB() {
+    let request = indexedDB.open('vitomaite10', 1);
 
-function iniciar() {
-    var boton = document.getElementById("enviar");
-    boton.addEventListener("click", enviarformulario);
+    request.onsuccess = function (event) {
+        let db = event.target.result;
+        console.log('Base de datos abierta con éxito.');
+    };
+
+    request.onerror = function (event) {
+        console.error('Error al abrir la base de datos:', event.target.errorCode);
+        alert('Hubo un problema al conectarse a la base de datos.');
+    };
 }
 
-function enviarformulario(event) {
-    event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+function loginUser() {
+    // Obtener los valores añadidos
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
 
-    // Obtener valores de los campos de correo y contraseña
-    var correo = document.getElementById("correo").value.trim();
-    var contraseña = document.getElementById("contraseña").value.trim();
-
-    var formulario = document.querySelector("form[name='formulariolgin']");
-    
-    // Comprobar que los campos no están vacíos
-    if (correo === "" || contraseña === "") {
-        alert("Por favor, completa todos los campos.");
+    // Verificar que se haya ingresado información
+    if (!email || !password) {
+        alert('Por favor, ingresa el email y la contraseña.');
         return;
     }
 
-    // Abrir la base de datos IndexedDB
-    var solicitud = indexedDB.open("basededatosUsuarios", 1);
+    // Verificar que la base de datos esté lista
+    if (!db) {
+        alert('La base de datos no está disponible. Intenta de nuevo más tarde.');
+        return;
+    }
+   
+    let transaction = db.transaction(['usuario'], 'readonly');
+    let userStore = transaction.objectStore('usuario');
+  
+    let request = userStore.get(email);
 
-    solicitud.addEventListener("error", function (evento) {
-        console.error("Error al abrir la base de datos: ", evento.target.error);
-    });
+    request.onsuccess = function (event) {
+        let user = event.target.result;
 
-    solicitud.addEventListener("success", function (evento) {
-        var bd = evento.target.result;
-
-        // Verificar si el almacén 'usuarios' existe
-        if (!bd.objectStoreNames.contains("usuarios")) {
-            console.error("El almacén 'usuarios' no existe. Asegúrate de que la base de datos está correctamente inicializada.");
+        // Mira si el usuario existe o no
+        if (!user) {
+            alert('El email no está registrado.');
             return;
         }
 
-        // Iniciar la transacción de solo lectura
-        var transaction = bd.transaction("usuarios", "readonly");
-        
-        // Obtener el almacén 'usuarios' de la transacción
-        var colecUsuarios = transaction.objectStore("usuarios");
-        
-        // Buscar en la colección para encontrar al usuario con el correo
-        var encontrado = colecUsuarios.get(correo);
-        
-        // En caso de encontrarlo
-        encontrado.onsuccess = function (event) {
-            var usuario = event.target.result;
+        // Verifica la contraseña
+        if (user.contraseña === password) {
+            alert(`¡Bienvenido, ${user.nombre}!`);
+            sessionStorage.setItem('loggedInUser', JSON.stringify(user));
+            window.location.href = 'pantallaLogueado.html';
+        } else {
+            alert('La contraseña es incorrecta.');
+        }
+    };
 
-            if (usuario && usuario.contraseña === contraseña) {
-                // Guardar datos del usuario en localStorage y redirigir
-                localStorage.setItem("nombre", usuario.nombre);
-                localStorage.setItem("correo", usuario.email);
-                localStorage.setItem("foto", usuario.foto);
-
-                alert("Bienvenido, " + usuario.nombre);
-                window.location.href = 'logeado.html';
-            } else {
-                // Usuario no encontrado o contraseña incorrecta
-                alert("Los datos introducidos no son correctos.");
-                window.location.href = 'hacerlogin.html';
-            }
-        };
-
-        encontrado.onerror = function () {
-            console.error("Error al buscar el usuario en el almacén 'usuarios'.");
-        };
-    });
-
-    solicitud.addEventListener("upgradeneeded", function (evento) {
-        console.warn("La base de datos necesita ser configurada. Asegúrate de que el almacén 'usuarios' esté creado.");
-    });
-}
-
-window.addEventListener("load", iniciar);
-
-
+    request.onerror = function () {
+        console.error('Error al buscar el usuario.');
+        alert('Hubo un error al intentar iniciar sesión.');
+    };}

@@ -3,12 +3,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
 body {
     font-family: 'Arial', sans-serif;
     color: #333;
+    background-image: url('img/background.jpg'); /* Imagen de fondo */
     background-size: cover;
     background-attachment: fixed;
     display: flex;
@@ -24,9 +24,10 @@ body {
     background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
     display: flex; /* Flexbox para organización */
-    justify-content: space-between; 
-    align-items: center; 
-    position: relative; 
+    justify-content: space-between; /* Espacio uniforme entre logo, título y botón */
+    align-items: center; /* Centra verticalmente los elementos */
+    padding: 20px;
+    position: relative; /* Para posicionamiento absoluto si es necesario */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -38,42 +39,49 @@ body {
 .header-title {
     font-size: 2em;
     font-weight: bold;
-    position: absolute; 
-    left: 50%; 
-    transform: translateX(-50%); 
+    position: absolute; /* Coloca el título en el medio */
+    left: 50%; /* Centra horizontalmente el texto */
+    transform: translateX(-50%); /* Ajusta para que esté exactamente centrado */
 }
 
-.btn-login {
+.btn-logout {
     padding: 10px 20px;
     background-color: #ff6b6b;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 4px;
-    font-size: 1em;
-    cursor: pointer;
     font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.3s ease;
-    text-decoration: none;
 }
 
-/* Estilo para el botón de login */
-.btn-login {
-    display: inline-block; /* Asegura que se comporte como un botón */
-    padding: 10px 20px;    /* Espaciado interno */
-    background-color: #007BFF; /* Color de fondo azul */
-    color: #fff;           /* Color del texto blanco */
-    text-decoration: none; /* Sin subrayado */
-    border-radius: 5px;    /* Bordes redondeados */
-    font-weight: bold;     /* Negrita para el texto */
-    text-align: center;    /* Centrar texto */
-    cursor: pointer;       /* Cambiar el cursor a "mano" */
+.btn-logout:hover {
+    background-color: #ee5253;
 }
 
-/* Efecto hover para el botón */
-.btn-login:hover {
-/*<<<<<<< HEAD*/
-    background-color: #0056b3; /* Color de fondo más oscuro */
+/* Estilo para el contenedor de información del usuario */
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre la foto y el texto */
+    padding: 5px 10px;
 }
+
+/* Estilo para la foto del usuario */
+.userPhoto {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Hacer la foto circular */
+    object-fit: cover; /* Ajustar la foto al contenedor sin deformarla */
+}
+
+/* Estilo para el nombre del usuario */
+#username {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+}
+
 
 /* Funcionalidades */
 .functionalities {
@@ -97,9 +105,53 @@ body {
 }
 
 .functionalities a:hover {
-    background-color: #ee5253;
+    background-color: #4a4e69;
     color: #fff;
 }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+}
+
+.dropdown-label {
+    cursor: pointer;
+    color: #4a4e69;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.5s ease;
+}
+
+.dropdown-menu{
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 150px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.dropdown-menu a {
+    display: block;
+    color: #333;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.5ease, color 0.5 ease;
+}
+
+.dropdown-menu a:hover{
+    background-color: #4a4e69;
+    color: white;
+}
+
+.dropdown:hover .dropdown-menu{
+    display: block;
+}
+
 
 /* Contenido principal */
 .main-content {
@@ -168,7 +220,7 @@ body {
     accent-color: #4a4e69;
 }
 
-.btn-search {
+.btn-search-logueado {
     width: 100%;
     padding: 10px;
     background-color: #4a4e69;
@@ -182,7 +234,7 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.btn-search:hover {
+.btn-search-logueado:hover {
     background-color: #222256;
 }
 
@@ -211,4 +263,3 @@ body {
 .footer a:hover {
     color: #fff;
 }
-

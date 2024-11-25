@@ -12,28 +12,29 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     // Abrir la base de datos
-    let db;
     let request = indexedDB.open('vitomaite10', 1);
 
     request.onsuccess = function (event) {
-        db = event.target.result;
+        let db = event.target.result;
         console.log('Base de datos abierta con éxito.');
 
-        // Obtener todos los "Me gusta" del usuario logueado usando el índice emailOrigen
+        // Obtener todos los "Me gusta" del usuario logueado
         let transaction = db.transaction(['meGusta'], 'readonly');
         let meGustaStore = transaction.objectStore('meGusta');
-        let meGustaIndex = meGustaStore.index('emailOrigen');
-        let meGustaRequest = meGustaIndex.getAll(loggedInUser.email);
+        let meGustaRequest = meGustaStore.getAll();
 
         meGustaRequest.onsuccess = function (event) {
             let likes = event.target.result;
 
-            if (likes.length === 0) {
+            // Filtrar los "Me gusta" solo del usuario logueado
+            let likedUsersEmails = likes
+                .filter(like => like.emailOrigen === loggedInUser.email)
+                .map(like => like.emailDestino);
+
+            if (likedUsersEmails.length === 0) {
                 resultsContainer.textContent = 'No has dado "Me gusta" a ningún usuario.';
                 return;
             }
-
-            let likedUsersEmails = likes.map(like => like.emailDestino);
 
             // Crear una transacción para la tabla 'usuario' y buscar la información de los usuarios "liked"
             let userTransaction = db.transaction('usuario', 'readonly');
@@ -43,7 +44,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 let userRequest = userStore.get(email);
                 userRequest.onsuccess = function (event) {
                     let user = event.target.result;
-
                     if (user) {
                         let userCard = document.createElement('div');
                         userCard.classList.add('user-card');

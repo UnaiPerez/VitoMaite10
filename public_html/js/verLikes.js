@@ -7,24 +7,24 @@ async function verMisLikes() {
             await openDB();
         }
 
-        const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+        let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
 
         if (!loggedInUser) {
             alert('No se encontró información del usuario logueado.');
             return;
         }
 
-        const transaction = db.transaction(['meGusta', 'usuario'], 'readonly');
-        const meGustaStore = transaction.objectStore('meGusta');
-        const usuarioStore = transaction.objectStore('usuario');
+        let transaction = db.transaction(['meGusta', 'usuario'], 'readonly');
+        let meGustaStore = transaction.objectStore('meGusta');
+        let usuarioStore = transaction.objectStore('usuario');
 
         // Obtener todos los "me gusta" hacia el usuario logueado
-        const likesRequest = meGustaStore.getAll();
+        let likesRequest = meGustaStore.getAll();
         likesRequest.onsuccess = function (event) {
-            const allLikes = event.target.result;
+            let allLikes = event.target.result;
 
             // Filtrar quiénes le dieron like al usuario logueado
-            const likesRecibidos = allLikes.filter(
+            let likesRecibidos = allLikes.filter(
                 like => like.emailDestino === loggedInUser.email
             );
 
@@ -33,22 +33,22 @@ async function verMisLikes() {
                 return;
             }
 
-            const likesContainer = document.getElementById('likes-container');
+            let likesContainer = document.getElementById('likes-container');
             likesContainer.innerHTML = ''; // Limpiar la sección
 
             likesRecibidos.forEach(like => {
                 // Verificar si hay reciprocidad
-                const reciproco = allLikes.some(
+                let reciproco = allLikes.some(
                     l => l.emailOrigen === loggedInUser.email && l.emailDestino === like.emailOrigen
                 );
 
                 // Obtener la información del usuario
-                const userRequest = usuarioStore.get(like.emailOrigen);
+                let userRequest = usuarioStore.get(like.emailOrigen);
                 userRequest.onsuccess = function (event) {
-                    const user = event.target.result;
+                    let user = event.target.result;
                     if (user) {
                         // Crear la tarjeta de usuario
-                        const userCard = document.createElement('div');
+                        let userCard = document.createElement('div');
                         userCard.className = 'user-card';
                         userCard.innerHTML = `
                             <img src="${user.foto}" alt="Foto de ${user.nombre}">

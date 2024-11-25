@@ -40,6 +40,15 @@
     background-color: #ee5253;
     color: #fff;
 }
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
 
 /* Contenedor del mapa */
 #map {
@@ -92,18 +101,4 @@ button:hover {
     background-color: #357abd;
 }
 
-/* Respuesta móvil */
-@media (max-width: 768px) {
-    #map {
-        height: 400px;
-    }
-
-    .controls input[type="range"] {
-        width: 150px;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-}
 

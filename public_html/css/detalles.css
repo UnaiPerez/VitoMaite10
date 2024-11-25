@@ -92,6 +92,12 @@ body {
     margin: 5px 0;
 }
 
+#map {
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+}
+
 /* Botón Dar Like */
 .btn-like {
     margin-bottom: 70px;

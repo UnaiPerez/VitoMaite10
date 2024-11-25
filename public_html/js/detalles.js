@@ -4,10 +4,10 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
-    const detailsContainer = document.getElementById('userDetails-container');
-    const params = new URLSearchParams(window.location.search);
-    const emailDestino = params.get('email'); // Email del usuario a mostrar
-    const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+    let detailsContainer = document.getElementById('userDetails-container');
+    let params = new URLSearchParams(window.location.search);
+    let emailDestino = params.get('email'); // Email del usuario a mostrar
+    let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
 
     if (!loggedInUser) {
         alert('Debes iniciar sesión para ver los detalles.');
@@ -21,17 +21,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Inicializar la base de datos y cargar detalles del usuario
-    const request = indexedDB.open('vitomaite10', 1);
+    let request = indexedDB.open('vitomaite10', 1);
 
     request.onsuccess = function (event) {
-        const db = event.target.result;
+        let db = event.target.result;
 
-        const transaction = db.transaction(['usuario'], 'readonly');
-        const userStore = transaction.objectStore('usuario');
-        const userRequest = userStore.get(emailDestino);
+        let transaction = db.transaction(['usuario'], 'readonly');
+        let userStore = transaction.objectStore('usuario');
+        let userRequest = userStore.get(emailDestino);
 
         userRequest.onsuccess = function (event) {
-            const user = event.target.result;
+            let user = event.target.result;
 
             if (!user) {
                 detailsContainer.textContent = 'El usuario no existe.';
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Función para inicializar el mapa
     function initMap(lat, lng) {
-        const map = new google.maps.Map(document.getElementById('map'), {
+        let map = new google.maps.Map(document.getElementById('map'), {
             center: { lat, lng },
             zoom: 14 // Nivel de zoom estándar para mostrar la ubicación
         });

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para actualizar el perfil
     function actualizarPerfil() {
-        const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+        let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
 
         if (!loggedInUser) {
             alert('Error: No se encontró el usuario logueado.');
@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Obtener los valores del formulario
-        const ciudad = document.getElementById('city').value.trim();
-        const archivoImagen = document.getElementById('imagen').files[0];
+        let ciudad = document.getElementById('city').value.trim();
+        let archivoImagen = document.getElementById('imagen').files[0];
 
         if (!ciudad && !archivoImagen) {
             alert('Por favor, selecciona una ciudad o una imagen para actualizar.');
@@ -35,11 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (archivoImagen) {
             // Convertir la imagen a Base64
-            const reader = new FileReader();
+            let reader = new FileReader();
             reader.readAsDataURL(archivoImagen);
 
             reader.onload = function () {
-                const imagenBase64 = reader.result; // Imagen en formato Base64
+                let imagenBase64 = reader.result; // Imagen en formato Base64
                 actualizarDB(loggedInUser.email, ciudad, imagenBase64);
             };
         } else {
@@ -49,13 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para actualizar en la base de datos
     function actualizarDB(email, nuevaCiudad, nuevaFoto) {
-        const transaction = db.transaction(['usuario'], 'readwrite');
-        const userStore = transaction.objectStore('usuario');
+        let transaction = db.transaction(['usuario'], 'readwrite');
+        let userStore = transaction.objectStore('usuario');
 
-        const request = userStore.get(email);
+        let request = userStore.get(email);
 
         request.onsuccess = function (event) {
-            const usuario = event.target.result;
+            let usuario = event.target.result;
 
             if (!usuario) {
                 alert('Error: Usuario no encontrado.');
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Guardar los cambios
-            const updateRequest = userStore.put(usuario);
+            let updateRequest = userStore.put(usuario);
 
             updateRequest.onsuccess = function () {
                 alert('Perfil actualizado con éxito.');
@@ -92,11 +92,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Previsualizar la imagen seleccionada o arrastrada
     function previsualizarImagen() {
-        const archivo = document.getElementById('imagen').files[0];
-        const previewImg = document.getElementById('preview-img');
+        let archivo = document.getElementById('imagen').files[0];
+        let previewImg = document.getElementById('preview-img');
 
         if (archivo) {
-            const reader = new FileReader();
+            let reader = new FileReader();
             reader.readAsDataURL(archivo);
 
             reader.onload = function (e) {
@@ -107,9 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para manejar el drag-and-drop
     function configurarDragAndDrop() {
-        const dropZone = document.getElementById('deposito');
-        const inputImagen = document.getElementById('imagen');
-        const previewImg = document.getElementById('preview-img');
+        let dropZone = document.getElementById('deposito');
+        let inputImagen = document.getElementById('imagen');
+        let previewImg = document.getElementById('preview-img');
 
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -124,11 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             dropZone.classList.remove('drag-over');
 
-            const archivo = e.dataTransfer.files[0];
+            let archivo = e.dataTransfer.files[0];
             if (archivo) {
                 inputImagen.files = e.dataTransfer.files;
 
-                const reader = new FileReader();
+                let reader = new FileReader();
                 reader.readAsDataURL(archivo);
 
                 reader.onload = (e) => {

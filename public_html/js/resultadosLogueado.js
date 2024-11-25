@@ -22,10 +22,26 @@ document.addEventListener('DOMContentLoaded', function () {
             <img src="${user.foto}" alt="Foto de ${user.nombre}" class="user-photo">
             <h3>${user.nombre}, ${user.edad}</h3>
             <p>${user.ciudad}</p>
-            <a href="detalles.html?email=${encodeURIComponent(user.email)}">Ver más detalles</a>
+            <a href="#" class="view-details" data-email="${user.email}">Ver más detalles</a>
         `;
 
         resultsContainer.appendChild(userCard);
+    });
+    
+    document.querySelectorAll('.view-details').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Evitar el comportamiento por defecto del enlace
+
+            let email = this.dataset.email;
+            let user = results.find(u => u.email === email);
+
+            if (user) {
+                sessionStorage.setItem('selectedUser', JSON.stringify(user));
+                window.location.href = `detalles.html?email=${encodeURIComponent(email)}`;
+            } else {
+                alert('No se pudo encontrar la información del usuario.');
+            }
+        });
     });
 });
 

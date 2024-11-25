@@ -1,4 +1,9 @@
 /* Contenedor Principal */
+.logo {
+    width: 100px;
+    height: 100px;
+}
+
 .main-content {
     flex-grow: 1;
     display: flex;

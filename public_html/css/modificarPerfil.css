@@ -24,6 +24,7 @@
     align-items: center;
     width: 100%;
     padding: 20px;
+    
 }
 
 .profile-container h2 {
@@ -36,6 +37,7 @@
     border: solid 1px #333;
     border-radius: 5px;
     padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.95);
 }
 
 #drop-zone {
@@ -101,11 +103,39 @@ button {
 }
 
 .btn-accept {
-    background-color: #007BFF;
-    color: white;
+    width: 100%;
+    padding: 10px;
+    background-color: #4a4e69;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    margin-right: 5px;
+}
+
+.btn-accept:hover {
+    background-color: #222256;
 }
 
 .btn-cancel {
-    background-color: #ddd;
-    color: #333;
+    width: 100%;
+    padding: 10px;
+    background-color: #4a4e69;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    margin-left: 5px;
+}
+
+.btn-cancel:hover {
+    background-color: #222256;
 }
